@@ -1,0 +1,61 @@
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+  <title>Vanilla JavaScript Feathers Chat</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="//cdn.rawgit.com/feathersjs/feathers-chat/v0.2.0/public/base.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/feathersjs/feathers-chat/v0.2.0/public/chat.css">
+</head>
+
+<body>
+  <div id="app" class="flex flex-column">
+    <input type="text" id="message" />
+    <input type="button" value="发送" id="send" />
+  </div>
+  <script src="//unpkg.com/@feathersjs/client@^3.0.0/dist/feathers.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="//code.jquery.com/jquery-2.2.1.js"></script>
+  <script>
+    /* global document, window, feathers, moment, io, $ */
+
+    // Establish a Socket.io connection
+    const socket = io();
+    // Initialize our Feathers client application through Socket.io
+    // with hooks and authentication.
+    const client = feathers();
+
+    client.configure(feathers.socketio(socket));
+    // Use localStorage to store our login token
+    client.configure(feathers.authentication({
+      storage: window.localStorage
+    }));
+
+    client.authenticate({
+      "strategy": "local",
+      "email": "feathers@example.com",
+      "password": "secret"
+    });
+
+
+    // Listen to created events and add the new message in real-time
+    client.service('messages').on('created', function (data) {
+      console.log(data)
+    });
+
+    // We will also see when new users get created in real-time
+    client.service('users').on('created', function () {
+
+    });
+
+    $('#send').on('click', function () {
+      client.service('messages').create({
+        text: $('#message').val()
+      })
+    })
+
+  </script>
+</body>
+
+</html>

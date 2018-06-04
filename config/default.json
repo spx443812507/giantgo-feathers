@@ -1,0 +1,35 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "mongodb": "mongodb://localhost:27017/giantgo_feathers",
+  "redis": "redis://user:sino@123@localhost:6379/2",
+  "authentication": {
+    "secret": "36e68ccf619e4aa73dd1028203f479b3064bde176d256e27b85154bf826adda945f59133dba4750e3114cf04ea3236652084929ac9728aca84fec2c03880706065f23dcaeef8636d308cc4bdba52e2048aa1e82359890c6130c4c63434584ac2881722ce1bffdbe14df6f25240c6d923ae182e058defc2d58b52acacf4e67b79d929c8afa93e30089e3e5c3d34ce9efb743c2a7e5fcd6111e5cacd8a81d1934cf9ebf2e65b7d339488b7b0431af0d67da523d6c0be41c8b6685045463c26d6021724086e5152bfa243ce209184d8ac005e3542b1eb9e6a1c9f7b506caa86cc62a74a3c3d9d746c85b39de80f9f23b84e6ae6cca5f24407079e59dbe0027a1668",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  }
+}
